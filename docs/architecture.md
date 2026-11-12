@@ -20,7 +20,15 @@ analisis_dise-o_sistema_2026/
 │   │   ├── Input.tsx         # state: default|focused|error (+ variante textarea)
 │   │   ├── Select.tsx        # estado closed/focused/open/disabled (dropdown en cliente)
 │   │   ├── Checkbox.tsx      # checked|unchecked
-│   │   └── SectionHeading.tsx  # antetítulo + título + descripción (patrón repetido en 6 secciones)
+│   │   ├── SectionHeading.tsx  # antetítulo + título + descripción (patrón repetido en 6 secciones)
+│   │   ├── NavigationItem/
+│   │   │   └── NavigationItem.tsx  # link de nav: active + hover/focus por CSS (estados reales)
+│   │   ├── NavBar/
+│   │   │   └── NavBar.tsx          # shell del nav: brand + items + acciones (slots)
+│   │   ├── SearchBar/
+│   │   │   └── SearchBar.tsx       # patrón Search Bar: icono 22 + etiqueta + valor
+│   │   └── Aside/
+│   │       └── Aside.tsx           # contenedor estructural de navegación lateral
 │   ├── landing/              # Una sección del Home Page por archivo (orden de Figma)
 │   │   ├── Navbar.tsx
 │   │   ├── HeroSection.tsx
@@ -56,6 +64,7 @@ analisis_dise-o_sistema_2026/
 2. Cada sección vive en su propio `.tsx` dentro de `components/landing/`.
 3. Las primitivas reutilizables se importan desde `components/ui/` (o `components/icons/`). Si una sección necesita un sub-componente específico no reutilizable, puede ir en `components/landing/<seccion>/` (subcarpeta) — evaluar antes si corresponde a `ui/`.
 4. Separación estricta sección/primitiva: si un elemento se usa en 2+ secciones → `ui/`; si solo en una → puede ser local de la sección.
+5. Los componentes **nuevos** de `ui/` usan una carpeta por componente (`ui/<Nombre>/<Nombre>.tsx`); los primitivos previos (`Button`, `Input`, `Tag`…) permanecen como archivos planos en `ui/`.
 5. Los iconos SVG de Figma se guardan en `components/icons/` como componentes React tipados que conservan el `width`/`height` original (permite tree-shaking y className para color/tamaño). Los SVGs que componen la **ilustración del Hero no son iconos**: se guardan como archivos estáticos en `public/illustrations/hero/` y se referencian como imágenes (posicionamiento absoluto según el diseño).
 
 ## 2. Convenciones de código
@@ -81,6 +90,10 @@ analisis_dise-o_sistema_2026/
 | `Select` | `label`, `options: string[]`, `value?`, `onChange?` | Dropdown nativo o custom con estados Closed/Open/Focused del kit |
 | `Checkbox` | `checked`, `onChange`, `children` | Casilla 17×17 + etiqueta |
 | `SectionHeading` | `eyebrow`, `title`, `description?`, `align?: "left"|"center"` | Patrones tipográficos del design-system |
+| `NavigationItem` | `label`, `href`, `active?`, `className?`, `onClick?` | Link (`next/link`). `active` = estado de navegación actual (Bold + píldora `#f28c45`); `Hovered`/`Focused` se resuelven con `:hover` / `:focus-visible` |
+| `NavBar` | `brand`, `children?` (`<li>`), `navLabel?`, `navClassName?`, `actions?`, `className?` | Shell estructural del nav (alto 96, contenedor de página). El consumidor decide el contenido y la visibilidad responsive de cada slot |
+| `SearchBar` | `icon`, `label`, `className?` + props nativas del `<input>` (incl. `ref`) | Icono 22 + etiqueta Bold 13 + valor Regular 14, sin borde; patrón de la Búsqueda rápida |
+| `Aside` | `label?`, `children`, `className?` | Contenedor `<aside>` en columna. Sin estilos visuales propios: la especificación del node `130:977` está pendiente de verificar |
 
 ## 4. Interactividad requerida (frontend, sin backend)
 

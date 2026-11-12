@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import type { ComponentType, FormEvent, Ref, SVGProps } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
 import Button from "@/components/ui/Button";
+import SearchBar from "@/components/ui/SearchBar/SearchBar";
 import Tag from "@/components/ui/Tag";
 import CalendarDays from "@/components/icons/calendar-days";
 import MapPin from "@/components/icons/map-pin";
@@ -19,60 +20,6 @@ const CATEGORIES = [
   "Entrenamiento",
   "Cuidado Temporal",
 ] as const;
-
-type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
-
-interface SearchFieldProps {
-  icon: IconComponent;
-  /** Etiqueta visible (Bold 13 #173d39). */
-  label: string;
-  name: string;
-  /** Valor Regular 14 #647873 (docs/design-system.md §5.16). Los campos
-   *  `type="date"` no lo muestran: el navegador dibuja su propio formato. */
-  placeholder?: string;
-  /** Tipo de control nativo (texto por defecto). */
-  type?: "text" | "date";
-  ref?: Ref<HTMLInputElement>;
-}
-
-/**
- * Campo del patrón Search Bar (docs/design-system.md §5.16): icono 22 +
- * etiqueta Bold 13 #173d39 + valor Regular 14 #647873, sin borde sobre el
- * panel blanco. El gap icono-texto (12) y etiqueta-valor (4) no están
- * documentados: criterio de implementación.
- *
- * ⏳ Color del icono no documentado: se usa `--color-primary-600` (mismo rol
- * simbólico que el heart del antetítulo del Hero).
- */
-function SearchField({
-  icon: Icon,
-  label,
-  name,
-  placeholder,
-  type = "text",
-  ref,
-}: SearchFieldProps) {
-  const id = useId();
-
-  return (
-    <div className="flex items-center gap-3 xl:flex-1">
-      <Icon aria-hidden="true" className="size-[22px] shrink-0 text-primary-600" />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <label htmlFor={id} className="text-label font-bold text-body">
-          {label}
-        </label>
-        <input
-          id={id}
-          name={name}
-          type={type}
-          placeholder={placeholder}
-          ref={ref}
-          className="w-full rounded-input bg-transparent text-control-sm font-normal text-secondary placeholder:text-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 [&::-webkit-date-and-time-value]:text-left"
-        />
-      </div>
-    </div>
-  );
-}
 
 /**
  * Búsqueda rápida (docs/landing-page.md §3 — nodos D 126:5657 ·
@@ -154,24 +101,28 @@ export default function QuickSearchSection() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-6 md:grid md:grid-cols-3 xl:flex xl:flex-row xl:items-center"
           >
-            <SearchField
+            {/* Patrón Search Bar del UI Kit (docs/design-system.md §5.16). */}
+            <SearchBar
               icon={Search}
               label="¿Qué necesita tu mascota?"
               name="servicio"
               placeholder="Selecciona un servicio"
               ref={serviceInputRef}
+              className="xl:flex-1"
             />
-            <SearchField
+            <SearchBar
               icon={MapPin}
               label="¿Dónde?"
               name="ubicacion"
               placeholder="Ciudad o zona"
+              className="xl:flex-1"
             />
-            <SearchField
+            <SearchBar
               icon={CalendarDays}
               label="¿Cuándo?"
               name="fecha"
               type="date"
+              className="xl:flex-1"
             />
             <Button
               label="Buscar"

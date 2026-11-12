@@ -139,6 +139,7 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 ### 5.1 Navigation Item — `62:100` ✅
 - Variantes: `Type=Default | Hovered | Focused` (216×46 en el kit)
 - En el Home: links del nav (15px) con indicador activo (píldora `#f28c45` 19×3, radio 2) bajo el link activo.
+- Implementado en `components/ui/NavigationItem/`. `active` representa el estado de navegación actual; `Hovered` y `Focused` se resuelven con los estados CSS `:hover` y `:focus-visible` (los valores finos de esas variantes siguen ⏳ pendientes de verificar). No se impone la altura 216×46 del kit: el indicador se ancla al alto del propio link.
 
 ### 5.2 Button — `83:1384` ✅ (el más usado)
 - **Type**: `Default` (fondo/borde `#084c49`, texto blanco, `--shadow-button`) · `Secondary` (fondo blanco, borde `#dce3e1`, texto `#063d3a`) · `Terciary` (fondo/borde transparente, texto `#084c49`) · `Delete`
@@ -195,8 +196,11 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 
 ### 5.16 Search Bar — `73:2911` ✅ (adaptado)
 - Referencia para los campos de la Búsqueda rápida: icono 22px + etiqueta Bold 13 `#173d39` + valor Regular 14 `#647873`. Campo sin borde sobre el panel blanco; `⏳` color del icono no capturado (se usa `#0b625e`).
+- Implementado en `components/ui/SearchBar/` como componente reutilizable; los tres campos de la Búsqueda rápida lo consumen.
 
 ### 5.17 Nav Bar — `73:2921` / Aside — `130:977` (no usados en el Home — app interna)
+- **Nav Bar**: implementado en `components/ui/NavBar/` como shell estructural (identidad + items + acciones sobre el contenedor de página). El Navbar del Home lo compone con `NavigationItem`.
+- **Aside**: implementado en `components/ui/Aside/` como contenedor `<aside>` en columna, sin estilos visuales propios (la especificación del node `130:977` sigue ⏳ pendiente). No se integra en el Home.
 
 ## 6. Patrones compuestos del Home (no existen como componente en el kit)
 
