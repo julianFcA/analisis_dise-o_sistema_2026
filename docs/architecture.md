@@ -24,11 +24,14 @@ analisis_dise-o_sistema_2026/
 │   │   ├── NavigationItem/
 │   │   │   └── NavigationItem.tsx  # link de nav: active + hover/focus por CSS (estados reales)
 │   │   ├── NavBar/
-│   │   │   └── NavBar.tsx          # shell del nav: brand + items + acciones (slots)
+│   │   │   └── NavBar.tsx          # shell del nav: inicio + items + acciones (slots; fullWidth para la app)
 │   │   ├── SearchBar/
-│   │   │   └── SearchBar.tsx       # patrón Search Bar: icono 22 + etiqueta + valor
+│   │   │   └── SearchBar.tsx       # patrón Search Bar: icono 22 + etiqueta + valor (o campo con borde)
 │   │   └── Aside/
 │   │       └── Aside.tsx           # contenedor estructural de navegación lateral
+│   ├── layout/               # Shells de aplicación (estructura global; no son secciones)
+│   │   └── AppLayout/
+│   │       └── AppLayout.tsx       # app autenticada: Aside + NavBar superior + <main>{children}
 │   ├── landing/              # Una sección del Home Page por archivo (orden de Figma)
 │   │   ├── Navbar.tsx
 │   │   ├── HeroSection.tsx
@@ -90,10 +93,16 @@ analisis_dise-o_sistema_2026/
 | `Select` | `label`, `options: string[]`, `value?`, `onChange?` | Dropdown nativo o custom con estados Closed/Open/Focused del kit |
 | `Checkbox` | `checked`, `onChange`, `children` | Casilla 17×17 + etiqueta |
 | `SectionHeading` | `eyebrow`, `title`, `description?`, `align?: "left"|"center"` | Patrones tipográficos del design-system |
-| `NavigationItem` | `label`, `href`, `active?`, `className?`, `onClick?` | Link (`next/link`). `active` = estado de navegación actual (Bold + píldora `#f28c45`); `Hovered`/`Focused` se resuelven con `:hover` / `:focus-visible` |
-| `NavBar` | `brand`, `children?` (`<li>`), `navLabel?`, `navClassName?`, `actions?`, `className?` | Shell estructural del nav (alto 96, contenedor de página). El consumidor decide el contenido y la visibilidad responsive de cada slot |
-| `SearchBar` | `icon`, `label`, `className?` + props nativas del `<input>` (incl. `ref`) | Icono 22 + etiqueta Bold 13 + valor Regular 14, sin borde; patrón de la Búsqueda rápida |
+| `NavigationItem` | `label`, `href`, `active?`, `icon?`, `trailing?`, `tone?: "surface"|"on-primary"`, `className?`, `onClick?` | Link (`next/link`). `active` = estado de navegación actual (Bold + indicador); `Hovered`/`Focused` se resuelven con `:hover` / `:focus-visible`. `tone` elige la superficie: navbar claro (`surface`) o Aside oscuro (`on-primary`, fila con icono y barra vertical) |
+| `NavBar` | `start`, `children?` (`<li>`), `navLabel?`, `navClassName?`, `actions?`, `fullWidth?`, `className?` | Shell estructural del nav (alto 96). Contenedor de página del Landing por defecto; `fullWidth` lo expande a todo el ancho para el Navbar de la app interna. El consumidor decide el contenido y la visibilidad responsive de cada slot |
+| `SearchBar` | `icon`, `label?`, `field?`, `className?` + props nativas del `<input>` (incl. `ref`) | Icono 22 + etiqueta Bold 13 + valor Regular 14. Con `field`: campo compacto de 40px con borde y sin etiqueta visible (Navbar de la app) |
 | `Aside` | `label?`, `children`, `className?` | Contenedor `<aside>` en columna. Sin estilos visuales propios: la especificación del node `130:977` está pendiente de verificar |
+
+### Contratos de layout (`components/layout/`)
+
+| Componente | Props mínimas | Comportamiento |
+|---|---|---|
+| `AppLayout` | `children?` | Shell de la app autenticada: `Aside` oscuro de 256px (`md`+, sticky a toda altura), `NavBar` superior a la derecha y `<main>` con el contenido de la ruta. Solo estructura: sin contenido de página, datos ni lógica de autenticación. En mobile el Aside se oculta (sin drawer definido todavía). Las rutas internas futuras lo consumen como `app/(app)/layout.tsx` |
 
 ## 4. Interactividad requerida (frontend, sin backend)
 

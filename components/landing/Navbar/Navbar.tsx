@@ -35,7 +35,7 @@ const NAV_LINKS: readonly NavLink[] = [
 export default function Navbar() {
   return (
     <NavBar
-      brand={
+      start={
         <a href="#" className="flex items-center gap-2.5">
           <span className="flex size-[38px] items-center justify-center rounded-emblem bg-primary-600 text-surface">
             <PawPrint aria-hidden="true" />
