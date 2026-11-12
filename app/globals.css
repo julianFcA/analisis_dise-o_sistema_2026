@@ -1,26 +1,138 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Escaneo de clases restringido al código (app/ y components/): sin esto,
+   Tailwind v4 escanea también la documentación y genera utilidades basura
+   a partir de ejemplos citados en el texto (p. ej. `bg-[#...]` en
+   docs/architecture.md §2). */
+@source ".";
+@source "../components";
+
+
+/* ============================================================================
+   PetCare Design System · v1.0 — tokens
+   Fuente: docs/design-system.md (página "3. UI KIT" del archivo de Figma).
+   Los tokens se definen una única vez aquí; los componentes solo consumen
+   clases utilitarias generadas por estos tokens (nada de valores arbitrarios).
+   ========================================================================== */
+
+@theme {
+  /* — Colores · Primario (§2) ——————————————————————————————— */
+  --color-primary-500: #084c49; /* botón Default, H1/H2, marca, footer */
+  --color-primary-600: #0b625e; /* emblema, antetítulos, link activo, badge, iniciales */
+  --color-primary-700: #063d3a; /* texto del botón Secondary */
+
+  /* — Colores · Neutros (§2) ————————————————————————————————— */
+  --color-body: #173d39; /* cuerpo destacado, etiquetas de formulario */
+  --color-secondary: #647873; /* texto secundario, placeholders, notas */
+  --color-surface: #ffffff; /* nav, tarjetas, inputs, paneles */
+  --color-surface-muted: #f4f7f6; /* secciones alternas (Hero, Búsqueda, Testimonios) */
+  --color-chip: #e6f0ed; /* chip de icono, Tag selected */
+  --color-avatar-bg: #e7f3f2; /* fondo del Avatar con iniciales */
+  --color-border: #dce7e3; /* tarjetas, inputs, divisores */
+  --color-border-button: #dce3e1; /* borde del botón Secondary */
+
+  /* — Colores · Acento (§2) ——————————————————————————————————— */
+  --color-accent: #f28c45; /* indicador activo del nav */
+  --color-accent-soft: #fff3e8; /* símbolo heart de la nota de bienestar */
+
+  /* — Colores · Footer (§2, sobre fondo primario) ———————————— */
+  --color-footer-text: #c5dcd6; /* enlaces y datos del footer */
+
+  /* — Tipografía · DM Sans única familia (§3) ————————————————————
+     Los pesos (400/500/700/800) se aplican con font-normal/font-medium/
+     font-bold/font-extrabold según el rol documentado. */
+
+  --text-brand: 27px; /* Marca "PetCare" · ExtraBold */
+  --text-brand--letter-spacing: -1px;
+
+  --text-h1: 56px; /* H1 Hero · Bold */
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -2.1px;
+
+  --text-h2: 36px; /* H2 Título de sección · Bold */
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -1.1px;
+
+  --text-eyebrow: 12px; /* Antetítulo de sección · Bold · uppercase */
+  --text-eyebrow--letter-spacing: 1.8px;
+
+  --text-eyebrow-hero: 12px; /* Antetítulo del Hero (tracking 1.3) · Bold · uppercase */
+  --text-eyebrow-hero--letter-spacing: 1.3px;
+
+  --text-hero-body: 18px; /* Cuerpo del Hero · Regular */
+  --text-hero-body--line-height: 1.55;
+
+  --text-description: 16px; /* Descripción de sección · Regular */
+  --text-description--line-height: 1.6;
+
+  --text-testimonial: 16px; /* Texto de testimonio · Regular */
+  --text-testimonial--line-height: 1.65;
+
+  --text-service-name: 21px; /* Nombre de servicio (card) · Bold */
+  --text-service-name--letter-spacing: -0.5px;
+
+  --text-category-title: 17px; /* Título de categoría (card) · Bold */
+
+  --text-nav: 15px; /* Nav link · Medium/Bold */
+  --text-testimonial-author: 15px; /* Autor de testimonio · Bold */
+
+  --text-control: 16px; /* Botones / select / inputs · Medium */
+  --text-control--line-height: 24px;
+
+  --text-control-sm: 14px; /* Placeholder / valor de input · Regular */
+
+  --text-tag: 14px; /* Cuerpo de filtro (tag) · Medium/Bold */
+
+  --text-form-title: 22px; /* Título de formulario · Bold */
+
+  --text-label: 13px; /* Etiqueta de campo de formulario/búsqueda · Bold */
+  --text-support: 13px; /* Señales de confianza / ubicación · Regular */
+
+  --text-badge: 12px; /* Badge de categoría (foto) · Bold */
+
+  --text-note: 12px; /* Unidad de precio / nota legal / checkbox · Regular */
+  --text-note--line-height: 1.5;
+
+  --text-avatar-initials: 16px; /* Iniciales de avatar · Bold */
+  --text-avatar-initials--line-height: 13.5px;
+
+  --text-price: 24px; /* Precio · Bold */
+
+  /* — Contenedor (§4) ——————————————————————————————————————————— */
+  --container-page: 1200px; /* ancho útil Desktop: ref. 1440 con padding-x 120 */
+
+  /* — Radios (§4) ——————————————————————————————————————————— */
+  --radius-button: 9px; /* botones */
+  --radius-input: 10px; /* inputs / select / textarea */
+  --radius-checkbox: 4px; /* casilla 17×17 */
+  --radius-chip: 16px; /* chip de icono, tarjeta de categoría, nota de bienestar */
+  --radius-card: 16px; /* tarjeta de categoría / nota de bienestar (rol propio) */
+  --radius-card-lg: 24px; /* tarjeta servicio/testimonio, panel búsqueda, formulario */
+  --radius-emblem: 12px; /* emblema del logo, símbolo 40 de la nota de bienestar */
+
+  /* — Sombras (§4) ——————————————————————————————————————————— */
+  --shadow-button: 0 6px 7px rgb(11 98 94 / 0.19); /* botón Default */
+  --shadow-card: 0 6px 24px rgb(8 76 73 / 0.04); /* tarjetas */
+  --shadow-float: 0 12px 40px rgb(8 76 73 / 0.07); /* panel búsqueda, nota bienestar */
 }
 
+/* DM Sans la inyecta next/font como variable CSS en app/layout.tsx. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+/* Modo claro único: el diseño no define modo oscuro y se elimina el
+   prefers-color-scheme heredado del template (docs/architecture.md §2). */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+    color-scheme: light;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    /* DM Sans variable con opsz fijo en 14, como en Figma (§3). */
+    font-variation-settings: "opsz" 14;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+  }
 }

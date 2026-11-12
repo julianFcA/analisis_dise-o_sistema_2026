@@ -194,7 +194,7 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 - En el Home se usa su anatomía para la **Tarjeta de categoría** (desktop: vertical, icono 52 con chip `#e6f0ed` radio 16, título 17, descripción 13, `arrow-up-right` 18px).
 
 ### 5.16 Search Bar — `73:2911` ✅ (adaptado)
-- Referencia para los campos de la Búsqueda rápida: icono 22px + etiqueta Bold 13 `#173d39` + valor Regular 14 `#647873`.
+- Referencia para los campos de la Búsqueda rápida: icono 22px + etiqueta Bold 13 `#173d39` + valor Regular 14 `#647873`. Campo sin borde sobre el panel blanco; `⏳` color del icono no capturado (se usa `#0b625e`).
 
 ### 5.17 Nav Bar — `73:2921` / Aside — `130:977` (no usados en el Home — app interna)
 

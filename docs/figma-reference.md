@@ -76,9 +76,13 @@ Variantes del **Button set** (`83:1384`): Type `Default` `83:1383` · `Secondary
 
 ## 5. Inventario de assets
 
-### 5.1 Ilustración del hero (solo Desktop; compuesta por SVGs individuales a posicionar)
+### 5.1 Ilustración del hero (solo Desktop; SVG único exportado de Figma)
 
-`atmosphere`, `left-plants`, `right-plants`, `bench`, `woman`, `retriever`, `woman-embrace`, `man`, `small-dog`, `cat`, `ground-accents` — dentro de `126:5545` (escena 570×460). Descargar cada SVG a `public/illustrations/hero/` y posicionarlo según `get_design_context` del nodo `126:5547`.
+`public/illustrations/hero/scene.svg` — escena completa 570×460 exportada de `126:5545` (nodo de composición `126:5547`): `atmosphere`, `left-plants`, `right-plants`, `bench`, `woman`, `retriever`, `woman-embrace`, `man`, `small-dog`, `cat`, `ground-accents`.
+
+Decisión aprobada: se exporta **un solo SVG** en vez de 11 archivos posicionados individualmente. La escena es puramente decorativa y no se reutiliza fuera del Hero, así que aplanarla elimina el riesgo de descolocación y la dependencia de las posiciones exactas de `get_design_context`. La **Nota de bienestar** (`126:5650`) se excluye del SVG: está implementada como HTML real (texto accesible) en `components/landing/hero/HeroIllustration.tsx`.
+
+El SVG conserva sus atributos raíz `width="570" height="460"` (regla de `AGENTS.md` §4); no se modifica el archivo original.
 
 ### 5.2 Iconos SVG (trazo tipo Lucide)
 
@@ -123,6 +127,8 @@ Queda pendiente extraer el design context de estos nodos (la estructura y dimens
 | Nodo | Sección | Qué falta |
 |---|---|---|
 | `126:5747` | Razones para elegir PetCare | Estilo del chip de icono de beneficios (se asume patrón `#e6f0ed`/52px como categorías) |
+| `126:5650` | Hero — Nota de bienestar | Color exacto del heart (se asume `--color-accent`). Posición decidida: centrada horizontalmente y alineada al borde inferior del área 570×490 |
+| `126:5657` | Búsqueda rápida | Color de los iconos de campo (se asume `--color-primary-600`), padding-x de los Tag (se asume 12) y espaciado vertical de la sección (se asume 0 arriba / 52–56 abajo, continuando el ritmo del Hero). Chips en Tablet: se permite wrap (la altura documentada de 235px implica una sola fila) |
 | `126:5853` | Sobre Nosotros | Estilo del chip "Mensaje de comunidad" sobre la foto y etiqueta del botón de misión (alto 44px ya confirmado) |
 | `126:5870` | Cómo Funciona | Estilo del círculo numerado de pasos y color de `arrow-right` |
 | `126:5969` | Contacto (marco de sección) | Fondo de la sección completa (la card del formulario `126:5998` sí está verificada: `#f4f7f6`) |

@@ -30,7 +30,7 @@
 - CTAs (gap 12): Button Secondary "Conoce más" + Button Default "Buscar Servicios"
 - Señales de confianza (gap 20): shield-check 17 + "Proveedores verificados" · heart-handshake 17 + "Cuidado con cariño" (Regular 13, `#647873`)
 
-**Vínculo con las mascotas** (`126:5545`, 570×490, solo Desktop): composición SVG 570×460 (`atmosphere`, `left/right-plants`, `bench`, `woman`, `retriever`, `woman-embrace`, `man`, `small-dog`, `cat`, `ground-accents` — archivos en `public/illustrations/hero/`, posiciones exactas en `get_design_context` de `126:5547`) + **Nota de bienestar** (`126:5650`, card blanca flotante p-16, radio 16, `--shadow-float`): símbolo 40 (`#fff3e8`, heart 22) + "Más que mascotas, familia." (Bold 14) + "El cuidado que se merecen, cerca de ti." (Regular 12).
+**Vínculo con las mascotas** (`126:5545`, 570×490, solo Desktop): escena SVG 570×460 (`public/illustrations/hero/scene.svg`, export único con `atmosphere`, `left/right-plants`, `bench`, `woman`, `retriever`, `woman-embrace`, `man`, `small-dog`, `cat`, `ground-accents`) + **Nota de bienestar** (`126:5650`, card blanca flotante p-16, radio 16, `--shadow-float`): símbolo 40 (`#fff3e8`, heart 22) + "Más que mascotas, familia." (Bold 14) + "El cuidado que se merecen, cerca de ti." (Regular 12).
 
 **Interacción**: CTAs → "Buscar Servicios" enfoca la sección de búsqueda; "Conoce más" → ancla a "Sobre Nosotros".
 
