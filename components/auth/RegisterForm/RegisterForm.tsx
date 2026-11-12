@@ -41,6 +41,7 @@ export default function RegisterForm() {
             autoComplete="name"
             value={fullName}
             onChange={setFullName}
+            placeholder="Ingresa tu nombre completo"
           />
           <Input
             label="Correo electrónico"
@@ -50,6 +51,7 @@ export default function RegisterForm() {
             value={email}
             onChange={setEmail}
             startIcon={<Mail />}
+            placeholder="correo@ejemplo.com"
           />
           <PasswordField
             label="Contraseña"
@@ -57,6 +59,7 @@ export default function RegisterForm() {
             autoComplete="new-password"
             value={password}
             onChange={setPassword}
+            placeholder="Ingresa tu contraseña"
           />
           <PasswordField
             label="Confirmar contraseña"
@@ -64,6 +67,7 @@ export default function RegisterForm() {
             autoComplete="new-password"
             value={confirmPassword}
             onChange={setConfirmPassword}
+            placeholder="Ingresa tu contraseña"
           />
         </div>
 
