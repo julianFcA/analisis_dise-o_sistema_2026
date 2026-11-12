@@ -76,8 +76,8 @@ export default function Navbar() {
 
         {/* Acceso: Iniciar Sesión / Registrarse. */}
         <div className="hidden items-center gap-6 md:flex">
-          <Button type="terciary" label="Iniciar Sesión" href="#" />
-          <Button type="default" label="Registrarse" href="#" />
+          <Button type="terciary" label="Iniciar Sesión" href="/login" />
+          <Button type="default" label="Registrarse" href="/register" />
         </div>
       </div>
     </header>

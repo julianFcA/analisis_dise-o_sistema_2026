@@ -63,7 +63,7 @@ export default function AboutSection() {
             <div>
               <Button
                 type="secondary"
-                label="Conoce PerCare"
+                label="Conoce PetCare"
                 className="min-h-11"
               />
             </div>
