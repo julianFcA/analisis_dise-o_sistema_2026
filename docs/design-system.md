@@ -30,6 +30,7 @@ El resto del sistema usa valores directos (documentados abajo como tokens del pr
 
 | Token propuesto | Hex | Uso |
 |---|---|---|
+| `--color-ink` | `#243238` | Azul-gris oscuro: texto o superficie muy oscura |
 | `--color-secondary` | `#647873` | Texto secundario: descripciones, links inactivos del nav, placeholders, unidades de precio, notas |
 | `--color-surface-muted` | `#f4f7f6` | Fondo de secciones alternas (Hero, Búsqueda, Testimonios — verificados). Fondo de la sección Contacto: ⏳ pendiente de verificar; la card del formulario sí usa este color (verificado) |
 | `--color-surface` | `#ffffff` | Fondos de nav, tarjetas, panel de búsqueda, inputs del formulario |
@@ -44,6 +45,16 @@ El resto del sistema usa valores directos (documentados abajo como tokens del pr
 |---|---|---|
 | `--color-accent` | `#f28c45` | Indicador activo del nav (píldora 19×3, radio 2) |
 | `--color-accent-soft` | `#fff3e8` | Fondo del símbolo (icono heart) de la "Nota de bienestar" |
+| `--color-accent-warm` | `#fff0e5` | Fondo cálido suave |
+| `--color-accent-strong` | `#c96320` | Acento cálido intenso |
+
+### Apoyo
+
+| Token propuesto | Hex | Uso |
+|---|---|---|
+| `--color-blue-soft` | `#e9f1fb` | Fondo azul suave |
+| `--color-purple` | `#7753a6` | Acento violeta |
+| `--color-purple-soft` | `#f0ebf8` | Fondo violeta suave |
 
 ### Colores del footer (sobre fondo primario)
 

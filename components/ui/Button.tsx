@@ -1,5 +1,7 @@
 import type { MouseEventHandler, ReactNode } from "react";
 
+import { cn } from "@/lib/cn";
+
 /** Variantes `Type` del Button del UI Kit (node 83:1384). */
 export type ButtonType = "default" | "secondary" | "terciary" | "delete";
 
@@ -100,9 +102,12 @@ export default function Button({
   const isDisabled = state === "disabled" || isLoading;
   const ariaLabel = showText ? undefined : label;
 
-  const classes = [BASE_CLASSES, VARIANT_CLASSES[type], className];
-  if (state === "focused") classes.push(FOCUSED_CLASSES);
-  const buttonClassName = classes.filter(Boolean).join(" ");
+  const buttonClassName = cn(
+    BASE_CLASSES,
+    VARIANT_CLASSES[type],
+    state === "focused" && FOCUSED_CLASSES,
+    className,
+  );
 
   const content = (
     <>

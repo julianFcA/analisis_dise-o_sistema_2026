@@ -26,7 +26,7 @@ export interface NavigationItemProps {
    Las variantes `Hovered` y `Focused` del kit se resuelven con los estados
    reales `:hover` / `:focus-visible` (no con una prop estática). */
 const BASE_CLASSES = [
-  "relative transition-colors",
+  "relative transition-colors overflow-hidden",
   "focus-visible:outline-2 focus-visible:outline-offset-2",
 ].join(" ");
 
@@ -61,10 +61,10 @@ const TONE_CLASSES: Record<NavigationItemTone, ToneClasses> = {
     states: {
       default:
         "font-medium text-footer-text hover:bg-white/10 hover:text-surface",
-      active: "bg-white/10 font-bold text-surface",
+      active: "bg-white/10 text-surface",
     },
     indicator:
-      "absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-full bg-surface",
+      "absolute left-0 top-1/2 h-full w-[4px] -translate-y-1/2 rounded-full bg-accent",
   },
 };
 

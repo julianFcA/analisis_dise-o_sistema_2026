@@ -42,7 +42,7 @@ export default function NavBar({
   className,
 }: NavBarProps) {
   const containerClasses = fullWidth
-    ? "flex h-24 w-full items-center justify-between gap-6 px-6 xl:px-12"
+    ? "flex h-24 w-full items-center justify-between gap-6 px-6 xl:px-10"
     : "mx-auto flex h-24 w-full max-w-page items-center justify-between px-6 xl:px-30";
 
   return (

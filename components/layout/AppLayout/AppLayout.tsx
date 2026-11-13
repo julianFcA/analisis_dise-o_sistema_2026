@@ -27,15 +27,16 @@ interface AppNavItem {
   active?: boolean;
   /** Indicador numérico a la derecha (Solicitudes). */
   count?: number;
+  href: string;
 }
 
 /* Navegación visible del shell autenticado. Las rutas todavía no existen:
    los enlaces quedan como ancla estructural (fase de layout, sin páginas). */
 const APP_NAV_ITEMS: readonly AppNavItem[] = [
-  { label: "Inicio", icon: HouseHeart, active: true },
-  { label: "Mis mascotas", icon: Footprints },
-  { label: "Solicitudes", icon: ClipboardList, count: 2 },
-  { label: "Servicios", icon: Heart },
+  { label: "Inicio", icon: HouseHeart, active: true, href:"/dashboard" },
+  { label: "Mis mascotas", icon: Footprints, href:"my-pets" },
+  { label: "Solicitudes", icon: ClipboardList, count: 2, href:"/applications" },
+  { label: "Servicios", icon: Heart, href:"/services" },
 ];
 
 export interface AppLayoutProps {
@@ -62,7 +63,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <Aside
         label="Navegación de PetCare"
         className={[
-          "w-64 shrink-0 flex-col gap-8 px-4 py-6",
+          "w-50 lg:w-64 shrink-0 flex-col gap-8 px-4 py-6",
           "bg-primary-500",
           "max-md:hidden md:sticky md:top-0 md:h-screen",
         ].join(" ")}
@@ -73,7 +74,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           className="flex items-center gap-2.5 px-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface"
         >
           <span className="flex size-9 items-center justify-center rounded-emblem bg-surface text-primary-600">
-            <PawPrint aria-hidden="true" className="size-[21px]" />
+            <PawPrint aria-hidden="true" className="size-5.25" />
           </span>
           <span className="text-brand font-extrabold text-surface">PetCare</span>
         </Link>
@@ -81,11 +82,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
         {/* Navegación lateral. */}
         <nav aria-label="Secciones de la aplicación">
           <ul className="flex flex-col gap-1">
-            {APP_NAV_ITEMS.map(({ label, icon: Icon, active, count }) => (
+            {APP_NAV_ITEMS.map(({ label, icon: Icon, active, count, href }) => (
               <li key={label}>
                 <NavigationItem
                   label={label}
-                  href="#"
+                  href={href}
                   active={active}
                   tone="on-primary"
                   icon={<Icon aria-hidden="true" className="size-5" />}
@@ -142,7 +143,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <div className="flex min-w-0 flex-1 flex-col">
         <NavBar
           fullWidth
-          className="sticky top-0 z-10"
+          className="sticky top-0 z-50"
           start={
             <SearchBar
               field
@@ -156,18 +157,20 @@ export default function AppLayout({ children }: AppLayoutProps) {
           actions={
             <div className="flex shrink-0 items-center gap-3">
               <Button
+                className="h-10 w-10 px-0"
                 type="secondary"
                 showText={false}
                 label="Cambiar tema"
                 leftIcon={<Moon aria-hidden="true" className="size-5" />}
               />
               <Button
+                className="h-10 w-10 px-0"
                 type="secondary"
                 showText={false}
                 label="Notificaciones"
                 leftIcon={<Bell aria-hidden="true" className="size-5" />}
               />
-              <Avatar size={32} initials="AM" />
+              <Avatar size={40} initials="AM" />
             </div>
           }
         />

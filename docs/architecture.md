@@ -9,6 +9,10 @@ analisis_dise-o_sistema_2026/
 ├── app/
 │   ├── layout.tsx            # RootLayout: DM Sans (next/font), metadata "PetCare", lang="es"
 │   ├── page.tsx              # SOLO composición: importa las 11 secciones en orden Figma
+│   ├── (app)/                # Rutas de la aplicación autenticada (sin segmento en la URL)
+│   │   ├── layout.tsx        # compone AppLayout (Aside + Navbar + main)
+│   │   └── dashboard/
+│   │       └── page.tsx      # /dashboard: SOLO composición de los bloques del Dashboard
 │   ├── globals.css           # Tailwind v4: @import "tailwindcss" + @theme con tokens
 │   └── favicon.ico
 ├── components/
@@ -32,6 +36,15 @@ analisis_dise-o_sistema_2026/
 │   ├── layout/               # Shells de aplicación (estructura global; no son secciones)
 │   │   └── AppLayout/
 │   │       └── AppLayout.tsx       # app autenticada: Aside + NavBar superior + <main>{children}
+│   ├── dashboard/            # Bloques de contenido del Dashboard (app autenticada)
+│   │   ├── DashboardHeader/        # bienvenida (eyebrow + H1 + descripción)
+│   │   ├── DashboardHero/          # banner: mensaje + foto + CTA + sello de confianza
+│   │   ├── DashboardStats/         # 3 cards KPI
+│   │   ├── UpcomingAppointment/    # próxima cita
+│   │   ├── MyPets/                 # lista de mascotas + consejo
+│   │   ├── RecommendedServices/    # cuadrícula de servicios
+│   │   ├── WeeklyTip/              # consejo de la semana
+│   │   └── DashboardSectionHeader/ # encabezado compartido de las tarjetas
 │   ├── landing/              # Una sección del Home Page por archivo (orden de Figma)
 │   │   ├── Navbar.tsx
 │   │   ├── HeroSection.tsx
@@ -102,6 +115,21 @@ analisis_dise-o_sistema_2026/
 
 | Componente | Props mínimas | Comportamiento |
 |---|---|---|
+### Bloques del Dashboard (`components/dashboard/`)
+
+| Componente | Props | Comportamiento |
+|---|---|---|
+| `DashboardHeader` | — | Bienvenida (eyebrow + `<h1>` + descripción) |
+| `DashboardHero` | — | Banner primario con badge, título, descripción, CTA y foto (`next/image`) + sello de confianza |
+| `DashboardStats` | — | Tres cards KPI estáticas (icono, número, etiqueta, chevron) |
+| `UpcomingAppointment` | — | Encabezado AGENDA y tarjeta de la próxima cita (fecha, estado, servicio, hora, ubicación, profesional) |
+| `MyPets` | — | Encabezado FAMILIA, lista de mascotas y `WeeklyTip`; sin CRUD |
+| `RecommendedServices` | — | Encabezado PARA ELLOS y cuadrícula 2→1 de servicios |
+| `WeeklyTip` | — | Bloque destacado en `--color-accent-soft` |
+| `DashboardSectionHeader` | `eyebrow`, `title`, `action?` | Encabezado reutilizable de las tarjetas (Bold 12 uppercase + Bold 22 + acción) |
+
+Los bloques son Server Components sin estado: los datos son estáticos de referencia, sin backend, autenticación ni lógica real (alcance de la fase).
+
 | `AppLayout` | `children?` | Shell de la app autenticada: `Aside` oscuro de 256px (`md`+, sticky a toda altura), `NavBar` superior a la derecha y `<main>` con el contenido de la ruta. Solo estructura: sin contenido de página, datos ni lógica de autenticación. En mobile el Aside se oculta (sin drawer definido todavía). Las rutas internas futuras lo consumen como `app/(app)/layout.tsx` |
 
 ## 4. Interactividad requerida (frontend, sin backend)
