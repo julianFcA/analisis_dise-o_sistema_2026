@@ -14,7 +14,7 @@ analisis_dise-o_sistema_2026/
 ├── components/
 │   ├── ui/                   # Primitivas reutilizables del design system (desde el UI Kit)
 │   │   ├── Button.tsx        # type: default|secondary|terciary|delete · state: default|focused|disabled|loading · showLeftIcon/showRightIcon/showText/label
-│   │   ├── Badge.tsx         # type: default|pending|canceled|review|disabled
+│   │   ├── Badge.tsx         # type: success|pending|canceled|review|disabled (+ showIndicator)
 │   │   ├── Tag.tsx           # state: default|selected (píldora de filtros)
 │   │   ├── Avatar.tsx        # size: 64|48|40|32 · initials | pawIcon (mutuamente excluyentes)
 │   │   ├── Input.tsx         # state: default|focused|error (+ variante textarea)
@@ -86,7 +86,7 @@ analisis_dise-o_sistema_2026/
 | Componente | Props mínimas | Comportamiento |
 |---|---|---|
 | `Button` | `type`, `label`, `state?`, `showLeftIcon?`, `showRightIcon?`, `showText?`, `className?`, `onClick?`, `href?` | Render `<a>` si `href`, si no `<button>`. Estados visuales del kit (disabled deshabilita, loading muestra spinner). |
-| `Badge` | `type`, `children` | Estático |
+| `Badge` | `type`, `showIndicator?`, `children`, `className?` | Estático; `showIndicator` añade el punto decorativo (`aria-hidden`) con el color del estado |
 | `Tag` | `selected`, `children`, `onClick?` | Botón toggleable, selección única dentro del grupo (gestionada por la sección) |
 | `Avatar` | `size`, `initials?`, `pawIcon?` | `initials` y `pawIcon` mutuamente excluyentes (regla oficial del kit) |
 | `Input` | `label`, `placeholder?`, `value?`, `error?`, `onChange?`, `textarea?` | Label + control + mensaje de error (estado `Error` del kit) |

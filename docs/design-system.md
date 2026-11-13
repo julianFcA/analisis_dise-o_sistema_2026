@@ -165,8 +165,20 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 - Radio: `Selected | Unselected`. Switch: `On | Off`.
 
 ### 5.7 Badge — `83:814` ✅
-- Variantes: `Type=Default | Pending | Canceled | Review | Disabled` (62×28 en kit)
-- En el Home: badge de categoría sobre la foto del servicio → píldora blanca, radio 100, `px 12 py 7`, texto Bold 12 `#0b625e`.
+- Variantes: `Type=Success | Pending | Canceled | Review | Disabled` (62×28 en kit) — el Kit nombra la variante base `Default`; el proyecto la implementa como `success` (fondo suave + texto del estado).
+- En el Home: badge de categoría sobre la foto del servicio → píldora blanca, radio 100, `px 12 py 7`, texto Bold 12 `#0b625e` (badge sin `type`).
+- Implementado en `components/ui/Badge.tsx`. Cada variante usa tokens existentes (§2); el indicador opcional (`showIndicator`) es un punto de 6px (`size-1.5`) con el color sólido del estado y `aria-hidden`:
+
+| Variante | Background | Text | Indicator |
+|---|---|---|---|
+| `success` | `--color-chip` | `--color-primary-600` | `--color-primary-600` |
+| `pending` | `--color-purple-soft` | `--color-purple` | `--color-purple` |
+| `canceled` | `--color-accent-soft` | `--color-accent-strong` | `--color-accent-strong` |
+| `review` | `--color-blue-soft` | `--color-blue-steel` | `--color-blue-steel` |
+| `disabled` | `--color-border` | `--color-secondary` | `--color-secondary` |
+| _sin `type`_ | `--color-surface` | `--color-primary-600` | `--color-primary-600` |
+
+⏳ El sistema no define un token de error/peligro (rojo). `canceled` usa el tono de aviso cálido existente (`accent-soft` + `accent-strong`); si se quiere un rojo semántico real habría que añadir tokens nuevos.
 
 ### 5.8 Tag — `100:401` ✅
 - Variantes: `State=Default | Selected` (41.6×25.6 en kit)

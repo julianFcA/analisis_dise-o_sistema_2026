@@ -7,6 +7,8 @@
 @source ".";
 @source "../components";
 
+@source "./**/*.{js,ts,jsx,tsx,mdx}";
+@source "../components/**/*.{js,ts,jsx,tsx,mdx}";
 
 /* ============================================================================
    PetCare Design System · v1.0 — tokens
@@ -23,6 +25,7 @@
 
   /* — Colores · Neutros (§2) ————————————————————————————————— */
   --color-body: #173d39; /* cuerpo destacado, etiquetas de formulario */
+  --color-ink: #243238; /* azul-gris oscuro: texto o superficie muy oscura */
   --color-secondary: #647873; /* texto secundario, placeholders, notas */
   --color-surface: #ffffff; /* nav, tarjetas, inputs, paneles */
   --color-surface-muted: #f4f7f6; /* secciones alternas (Hero, Búsqueda, Testimonios) */
@@ -34,6 +37,14 @@
   /* — Colores · Acento (§2) ——————————————————————————————————— */
   --color-accent: #f28c45; /* indicador activo del nav */
   --color-accent-soft: #fff3e8; /* símbolo heart de la nota de bienestar */
+  --color-accent-warm: #fff0e5; /* fondo cálido suave */
+  --color-accent-strong: #c96320; /* acento cálido intenso */
+
+  /* — Colores · Apoyo (§2) ———————————————————————————————————— */
+  --color-blue-soft: #e9f1fb; /* fondo azul suave */
+  --color-blue-steel: #356AA3; /* azul oscuro */
+  --color-purple: #7753a6; /* acento violeta */
+  --color-purple-soft: #f0ebf8; /* fondo violeta suave */
 
   /* — Colores · Footer (§2, sobre fondo primario) ———————————— */
   --color-footer-text: #c5dcd6; /* enlaces y datos del footer */
