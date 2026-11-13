@@ -116,6 +116,8 @@ Se renderiza dentro de `AppLayout`: Aside fijo de 256px desde `md`, Navbar super
 | Área de mascotas | Estado vacío centrado; ilustración al ancho disponible | Estado vacío centrado | Estado vacío centrado |
 | Próxima solicitud + bienestar | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; 2 columnas (`2fr / 1fr`) si hay mascotas |
 
+El modal "Registrar Nueva Mascota" (`AddPetModal`) usa el `Modal` del kit: panel de máximo 672px centrado con margen 16 y scroll vertical del overlay cuando el contenido excede el viewport (en 390×844 el formulario mide ~1145px). Debajo de `md` el formulario es de una columna (Edad y Peso apilados, dropzone en columna centrada y footer con los botones apilados); desde `md` Edad/Peso van a dos columnas iguales, la dropzone es horizontal (chip de cámara 72×72 + textos + botón) y el footer son dos columnas iguales. Sin overflow horizontal en 390/768/1440.
+
 El estado vacío mantiene la composición vertical (imagen → título → descripción → CTA) centrada en los tres breakpoints. La ilustración conserva su proporción y el botón nunca genera overflow horizontal. El bloque inferior (próxima solicitud + bienestar) solo se compone cuando existen mascotas.
 
 ## 7. Página interna — Servicios (`/services`)

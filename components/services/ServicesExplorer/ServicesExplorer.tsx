@@ -317,7 +317,9 @@ export default function ServicesExplorer() {
               filtersSheetOpen
                 ? "translate-y-0"
                 : "pointer-events-none translate-y-full",
-              "xl:static xl:z-auto xl:max-h-none xl:translate-y-0 xl:overflow-visible xl:rounded-none xl:bg-transparent xl:shadow-none xl:transition-none"
+              /* En `xl` el panel es la columna lateral: recupera la interacción
+                 que el estado cerrado de la hoja desactiva. */
+              "xl:static xl:z-auto xl:pointer-events-auto xl:max-h-none xl:translate-y-0 xl:overflow-visible xl:rounded-none xl:bg-transparent xl:shadow-none xl:transition-none"
             )}
           >
             <ServicesFilters

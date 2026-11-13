@@ -213,6 +213,8 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 ### 5.13 Modal — `106:1812` ✅ (overlay)
 - Overlay de pantalla completa: fondo `#5f6c72` al 56% (`--color-overlay`) + `backdrop-filter: blur(16px)`; se pinta por encima del contenido (`z-60`).
 - Implementado en `components/ui/Modal/` como primitiva estructural: recibe `children` libre (título, formulario, acciones…) y `className?` opcional. Sin estado, portal, focus trap, cierre con Escape ni animaciones en esta fase.
+- Consumidor de referencia: "Registrar Nueva Mascota" (`components/my-pets/AddPetModal/`). Escape y el cierre los resuelve el consumidor, no la primitiva.
+- Tokens del formulario del modal (§2): campos `--color-form-input` (#f1f3f5), dropzone `--color-form-surface` (#f8f9fa) con borde dashed `--color-form-border-dashed` (#cbd5e1), divisores y bordes `--color-form-border` (#dee2e6) y texto de "Cancelar" `--color-form-cancel` (#c86d3b). El resto de la pieza usa los tokens existentes (`primary-500`, `body`, `secondary`, `chip`, `surface`, `radius-card`, `shadow-float`).
 
 ### 5.14 Datatable — `106:1830` (no usado en el Home)
 
