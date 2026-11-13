@@ -103,3 +103,17 @@ Puntos de validación obligatorios: **390, 768, 1440** + intermedios **1024, 128
 4. **Inputs del formulario en mobile**: mantener 2 columnas (131px c/u) según diseño — no apilar.
 5. **Imagen "Sobre Nosotros"**: altura 412 fija en D/T; en M recortar (el diseño mantiene 412 con overflow).
 6. **Sin overflow horizontal global**: cualquier elemento que exceda el ancho útil (solo filtros) debe resolver con scroll interno.
+
+## 6. Página interna — Mis Mascotas (`/my-pets`)
+
+Se renderiza dentro de `AppLayout`: Aside fijo de 256px desde `md`, Navbar superior y `<main>` fluido con padding 24 → 48 (`xl`). En mobile el Aside se oculta y el contenido usa el ancho completo con padding 24.
+
+| Bloque | Mobile (<768) | Tablet (`md`, 768–1279) | Desktop (`xl`, ≥1280) |
+|---|---|---|---|
+| Encabezado + CTA | Apilado; botón a ancho completo | Título izq. + botón der. | Igual que tablet |
+| Cards KPI | 1 columna | 2 columnas; la tercera ocupa la fila completa | 3 columnas |
+| Encabezado de la lista + "Ordenar por" | Apilados; el badge envuelve | Apilados (control en su propia línea) | Fila con el control a la derecha |
+| Área de mascotas | Estado vacío centrado; ilustración al ancho disponible | Estado vacío centrado | Estado vacío centrado |
+| Próxima solicitud + bienestar | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; 2 columnas (`2fr / 1fr`) si hay mascotas |
+
+El estado vacío mantiene la composición vertical (imagen → título → descripción → CTA) centrada en los tres breakpoints. La ilustración conserva su proporción y el botón nunca genera overflow horizontal. El bloque inferior (próxima solicitud + bienestar) solo se compone cuando existen mascotas.

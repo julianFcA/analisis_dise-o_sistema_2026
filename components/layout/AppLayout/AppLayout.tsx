@@ -2,6 +2,7 @@
 
 import type { ComponentType, ReactNode, SVGProps } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Aside from "@/components/ui/Aside/Aside";
 import NavBar from "@/components/ui/NavBar/NavBar";
 import NavigationItem from "@/components/ui/NavigationItem/NavigationItem";
@@ -24,19 +25,18 @@ type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 interface AppNavItem {
   label: string;
   icon: IconComponent;
-  active?: boolean;
   /** Indicador numérico a la derecha (Solicitudes). */
   count?: number;
   href: string;
 }
 
-/* Navegación visible del shell autenticado. Las rutas todavía no existen:
-   los enlaces quedan como ancla estructural (fase de layout, sin páginas). */
+/* Navegación visible del shell autenticado. Las rutas sin página quedan como
+   ancla estructural; el estado activo se calcula con la ruta actual. */
 const APP_NAV_ITEMS: readonly AppNavItem[] = [
-  { label: "Inicio", icon: HouseHeart, active: true, href:"/dashboard" },
-  { label: "Mis mascotas", icon: Footprints, href:"my-pets" },
-  { label: "Solicitudes", icon: ClipboardList, count: 2, href:"/applications" },
-  { label: "Servicios", icon: Heart, href:"/services" },
+  { label: "Inicio", icon: HouseHeart, href: "/dashboard" },
+  { label: "Mis mascotas", icon: Footprints, href: "/my-pets" },
+  { label: "Solicitudes", icon: ClipboardList, count: 2, href: "/applications" },
+  { label: "Servicios", icon: Heart, href: "/services" },
 ];
 
 export interface AppLayoutProps {
@@ -58,6 +58,8 @@ export interface AppLayoutProps {
  * conserva búsqueda + acciones sin overflow horizontal.
  */
 export default function AppLayout({ children }: AppLayoutProps) {
+  const pathname = usePathname();
+
   return (
     <div className="flex min-h-screen bg-surface-muted">
       <Aside
@@ -82,12 +84,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
         {/* Navegación lateral. */}
         <nav aria-label="Secciones de la aplicación">
           <ul className="flex flex-col gap-1">
-            {APP_NAV_ITEMS.map(({ label, icon: Icon, active, count, href }) => (
+            {APP_NAV_ITEMS.map(({ label, icon: Icon, count, href }) => (
               <li key={label}>
                 <NavigationItem
                   label={label}
                   href={href}
-                  active={active}
+                  active={pathname === href}
                   tone="on-primary"
                   icon={<Icon aria-hidden="true" className="size-5" />}
                   trailing={

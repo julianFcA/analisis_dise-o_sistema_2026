@@ -11,8 +11,10 @@ analisis_dise-o_sistema_2026/
 │   ├── page.tsx              # SOLO composición: importa las 11 secciones en orden Figma
 │   ├── (app)/                # Rutas de la aplicación autenticada (sin segmento en la URL)
 │   │   ├── layout.tsx        # compone AppLayout (Aside + Navbar + main)
-│   │   └── dashboard/
-│   │       └── page.tsx      # /dashboard: SOLO composición de los bloques del Dashboard
+│   │   ├── dashboard/
+│   │   │   └── page.tsx      # /dashboard: SOLO composición de los bloques del Dashboard
+│   │   └── my-pets/
+│   │       └── page.tsx      # /my-pets: SOLO composición de los bloques de Mis Mascotas
 │   ├── globals.css           # Tailwind v4: @import "tailwindcss" + @theme con tokens
 │   └── favicon.ico
 ├── components/
@@ -45,6 +47,14 @@ analisis_dise-o_sistema_2026/
 │   │   ├── RecommendedServices/    # cuadrícula de servicios
 │   │   ├── WeeklyTip/              # consejo de la semana
 │   │   └── DashboardSectionHeader/ # encabezado compartido de las tarjetas
+│   ├── my-pets/              # Bloques de contenido de Mis Mascotas (app autenticada)
+│   │   ├── MyPetsHeader/           # H1, descripción y CTA "Agregar Mascota"
+│   │   ├── MyPetsStats/            # 3 cards KPI (mascotas, solicitudes, próxima cita)
+│   │   ├── PetList/                # encabezado con contador y estado vacío
+│   │   ├── EmptyPetsState/         # ilustración `dog_cat.svg` + mensaje + CTA
+│   │   ├── PetCard/                # foto, badge de tipo, estado, datos y acciones
+│   │   ├── UpcomingRequest/        # próxima solicitud con fecha y enlace
+│   │   └── PetWellbeingCard/       # consejo de bienestar
 │   ├── landing/              # Una sección del Home Page por archivo (orden de Figma)
 │   │   ├── Navbar.tsx
 │   │   ├── HeroSection.tsx
@@ -60,7 +70,7 @@ analisis_dise-o_sistema_2026/
 │   └── icons/                # Iconos SVG descargados de Figma (heart.tsx, map-pin.tsx, …)
 ├── public/
 │   ├── illustrations/hero/   # SVGs que componen la ilustración del Hero (atmosphere, woman, man, …)
-│   └── images/               # Raster: fotos de servicios, foto "Sobre Nosotros"
+│   └── images/               # Raster: fotos de servicios, "Sobre Nosotros" y mascotas (`pets/`)
 ├── docs/                     # Documentación técnica (fuente canónica)
 │   ├── design-system.md
 │   ├── figma-reference.md
@@ -130,7 +140,21 @@ analisis_dise-o_sistema_2026/
 
 Los bloques son Server Components sin estado: los datos son estáticos de referencia, sin backend, autenticación ni lógica real (alcance de la fase).
 
-| `AppLayout` | `children?` | Shell de la app autenticada: `Aside` oscuro de 256px (`md`+, sticky a toda altura), `NavBar` superior a la derecha y `<main>` con el contenido de la ruta. Solo estructura: sin contenido de página, datos ni lógica de autenticación. En mobile el Aside se oculta (sin drawer definido todavía). Las rutas internas futuras lo consumen como `app/(app)/layout.tsx` |
+| `AppLayout` | `children?` | Shell de la app autenticada: `Aside` oscuro de 256px (`md`+, sticky a toda altura), `NavBar` superior a la derecha y `<main>` con el contenido de la ruta. Solo estructura: sin contenido de página, datos ni lógica de autenticación. En mobile el Aside se oculta (sin drawer definido todavía). Las rutas internas futuras lo consumen como `app/(app)/layout.tsx`. El item activo se deriva de `usePathname()` según el `href` de cada ruta |
+
+### Bloques de Mis Mascotas (`components/my-pets/`)
+
+| Componente | Props | Comportamiento |
+|---|---|---|
+| `MyPetsHeader` | — | `<h1>` "Mis Mascotas", descripción y CTA "Agregar Mascota" |
+| `MyPetsStats` | — | Tres cards KPI estáticas (total, solicitudes activas, próxima cita) |
+| `PetList` | — | Encabezado con contador y `EmptyPetsState` (sin control de orden mientras no haya mascotas) |
+| `EmptyPetsState` | — | Estado vacío centrado: `dog_cat.svg` decorativo, título, descripción y CTA "Agregar mi primera mascota" (`Button` Default) |
+| `PetCard` | `pet: Pet` | Foto (`next/image`) con `Badge` de tipo, estado de salud, raza/edad, registro y acciones Editar/Eliminar (visuales) |
+| `UpcomingRequest` | — | Próxima solicitud con fecha, estado y enlace "Ver solicitud" |
+| `PetWellbeingCard` | — | Bloque destacado en `--color-chip` con consejo de bienestar |
+
+Los bloques son Server Components sin estado: datos estáticos de referencia, sin CRUD, backend ni autenticación. Las fotos se sirven desde `public/images/pets/`. Mientras el escenario esté vacío (`PET_COUNT === 0`), la página oculta la próxima solicitud y el bloque de bienestar porque dependen de datos de mascotas.
 
 ## 4. Interactividad requerida (frontend, sin backend)
 
