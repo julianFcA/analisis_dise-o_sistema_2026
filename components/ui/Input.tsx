@@ -79,6 +79,7 @@ export default function Input({
     onChange: onChange ? (event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value) : undefined,
     "aria-invalid": error ? true : undefined,
     "aria-describedby": describedBy,
+    "aria-required": required ? true : undefined,
   } as const;
 
   return (
@@ -99,6 +100,7 @@ export default function Input({
           onChange={onChange ? (event) => onChange(event.target.value) : undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
+          aria-required={required || undefined}
           className={controlClasses}
         />
       ) : (

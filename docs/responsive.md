@@ -117,3 +117,18 @@ Se renderiza dentro de `AppLayout`: Aside fijo de 256px desde `md`, Navbar super
 | Próxima solicitud + bienestar | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; apilados si hay mascotas | Oculto en vacío; 2 columnas (`2fr / 1fr`) si hay mascotas |
 
 El estado vacío mantiene la composición vertical (imagen → título → descripción → CTA) centrada en los tres breakpoints. La ilustración conserva su proporción y el botón nunca genera overflow horizontal. El bloque inferior (próxima solicitud + bienestar) solo se compone cuando existen mascotas.
+
+## 7. Página interna — Servicios (`/services`)
+
+También dentro de `AppLayout` (Aside 200px hasta `lg`, 256px desde `lg`; oculto en mobile) con `<main>` fluido.
+
+| Bloque | Mobile (<768) | Tablet (`md`, 768–1279) | Desktop (`xl`, ≥1280) |
+|---|---|---|---|
+| Encabezado | Apilado (título a 2 líneas) + bloque de confianza a ancho completo | Apilado | Fila: texto a la izquierda, bloque de confianza a la derecha |
+| Categorías | Barra horizontal con scroll interno (`overflow-x-auto`) | Igual | Todos los tabs a la vista |
+| Filtros | Fila con **Filtros** (`aria-expanded`) + **Limpiar filtros**. El panel es una hoja inferior a ancho completo que sube desde abajo sobre un overlay (z-70), con scroll interno (`max-h-[85dvh]`) y acciones **Aplicar filtros** / cerrar (X); cierra con Escape o al pulsar el fondo, bloquea el scroll del documento y devuelve el foco al botón | Igual que mobile | Columna fija de 288px, `sticky` bajo el Navbar, sin overlay ni botones de aplicar/cerrar |
+| Grid | 1 columna | 2 columnas (`sm`) | 2 columnas (`xl`), 3 en `2xl` |
+| Toolbar (contador + orden) | Contador y `Select` apilados | Fila si cabe | Fila con el contador a la izquierda y el orden a la derecha |
+| Paginación | Resumen y controles apilados | Fila | Fila |
+
+Sin overflow horizontal en 390/768/1024/1280/1440/1920: la barra de categorías resuelve su ancho con scroll interno y el grid nunca excede la columna disponible.

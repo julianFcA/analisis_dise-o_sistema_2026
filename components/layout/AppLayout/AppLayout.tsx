@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Aside from "@/components/ui/Aside/Aside";
 import NavBar from "@/components/ui/NavBar/NavBar";
 import NavigationItem from "@/components/ui/NavigationItem/NavigationItem";
-import SearchBar from "@/components/ui/SearchBar/SearchBar";
 import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import PawPrint from "@/components/icons/paw-print";
@@ -14,10 +13,10 @@ import HouseHeart from "@/components/icons/house-heart";
 import Footprints from "@/components/icons/footprints";
 import ClipboardList from "@/components/icons/clipboard-list";
 import Heart from "@/components/icons/heart";
-import Search from "@/components/icons/search";
 import Bell from "@/components/icons/bell";
 import Moon from "@/components/icons/moon";
 import ChevronRight from "@/components/icons/chevron-right";
+import AppSearchForm from "@/components/layout/AppLayout/AppSearchForm";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -35,7 +34,7 @@ interface AppNavItem {
 const APP_NAV_ITEMS: readonly AppNavItem[] = [
   { label: "Inicio", icon: HouseHeart, href: "/dashboard" },
   { label: "Mis mascotas", icon: Footprints, href: "/my-pets" },
-  { label: "Solicitudes", icon: ClipboardList, count: 2, href: "/applications" },
+  { label: "Solicitudes", icon: ClipboardList, count: 2, href: "/requests" },
   { label: "Servicios", icon: Heart, href: "/services" },
 ];
 
@@ -146,16 +145,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <NavBar
           fullWidth
           className="sticky top-0 z-50"
-          start={
-            <SearchBar
-              field
-              icon={Search}
-              name="q"
-              placeholder="Buscar servicios o proveedores"
-              aria-label="Buscar servicios o proveedores"
-              className="min-w-0 max-w-[420px] flex-1"
-            />
-          }
+          start={<AppSearchForm />}
           actions={
             <div className="flex shrink-0 items-center gap-3">
               <Button

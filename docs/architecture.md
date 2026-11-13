@@ -1,6 +1,6 @@
 # Arquitectura del proyecto — PetCare Landing Page
 
-## 1. Estructura de carpetas (aprobada)
+## 1. Estructura de carpetas
 
 Adaptada a la organización existente del repositorio (App Router en raíz, sin `src/`, alias `@/*` → raíz):
 
@@ -13,8 +13,10 @@ analisis_dise-o_sistema_2026/
 │   │   ├── layout.tsx        # compone AppLayout (Aside + Navbar + main)
 │   │   ├── dashboard/
 │   │   │   └── page.tsx      # /dashboard: SOLO composición de los bloques del Dashboard
-│   │   └── my-pets/
-│   │       └── page.tsx      # /my-pets: SOLO composición de los bloques de Mis Mascotas
+│   │   ├── my-pets/
+│   │   │   └── page.tsx      # /my-pets: SOLO composición de los bloques de Mis Mascotas
+│   │   └── services/
+│   │       └── page.tsx      # /services: SOLO composición del catálogo de servicios
 │   ├── globals.css           # Tailwind v4: @import "tailwindcss" + @theme con tokens
 │   └── favicon.ico
 ├── components/
@@ -55,6 +57,17 @@ analisis_dise-o_sistema_2026/
 │   │   ├── PetCard/                # foto, badge de tipo, estado, datos y acciones
 │   │   ├── UpcomingRequest/        # próxima solicitud con fecha y enlace
 │   │   └── PetWellbeingCard/       # consejo de bienestar
+│   ├── services/             # Bloques del catálogo de servicios (app autenticada)
+│   │   ├── ServicesHeader/         # eyebrow + H1 + descripción + bloque de confianza
+│   │   ├── ServiceCategories/      # tabs de categoría (filtran el catálogo)
+│   │   ├── ServicesFilters/        # sidebar de filtros combinados (categoría, precio, disponibilidad, ubicación, calificación)
+│   │   ├── ServicesToolbar/        # contador dinámico + búsqueda activa + ordenamiento
+│   │   ├── ServiceCard/            # card de servicio (imagen, badge, favorito, datos, precio, CTA)
+│   │   ├── ServicesGrid/           # grid de cards + estado vacío
+│   │   ├── ServicesEmpty/          # estado vacío con "Limpiar filtros"
+│   │   ├── ServicesPagination/     # paginación funcional del resultado filtrado
+│   │   ├── ServicesInfo/           # información inferior (confianza + nota de precios)
+│   │   └── ServicesExplorer/       # estado y composición cliente de toda la página
 │   ├── landing/              # Una sección del Home Page por archivo (orden de Figma)
 │   │   ├── Navbar.tsx
 │   │   ├── HeroSection.tsx
@@ -71,6 +84,11 @@ analisis_dise-o_sistema_2026/
 ├── public/
 │   ├── illustrations/hero/   # SVGs que componen la ilustración del Hero (atmosphere, woman, man, …)
 │   └── images/               # Raster: fotos de servicios, "Sobre Nosotros" y mascotas (`pets/`)
+├── data/
+│   └── services.json         # Dataset local del catálogo de servicios (única fuente de datos)
+├── lib/
+│   ├── cn.ts                 # unión de clases Tailwind
+│   └── services.ts           # tipos del JSON, filtros combinados, ordenamiento y formato
 ├── docs/                     # Documentación técnica (fuente canónica)
 │   ├── design-system.md
 │   ├── figma-reference.md
@@ -120,6 +138,7 @@ analisis_dise-o_sistema_2026/
 | `NavBar` | `start`, `children?` (`<li>`), `navLabel?`, `navClassName?`, `actions?`, `fullWidth?`, `className?` | Shell estructural del nav (alto 96). Contenedor de página del Landing por defecto; `fullWidth` lo expande a todo el ancho para el Navbar de la app interna. El consumidor decide el contenido y la visibilidad responsive de cada slot |
 | `SearchBar` | `icon`, `label?`, `field?`, `className?` + props nativas del `<input>` (incl. `ref`) | Icono 22 + etiqueta Bold 13 + valor Regular 14. Con `field`: campo compacto de 40px con borde y sin etiqueta visible (Navbar de la app) |
 | `Aside` | `label?`, `children`, `className?` | Contenedor `<aside>` en columna. Sin estilos visuales propios: la especificación del node `130:977` está pendiente de verificar |
+| `Modal` | `children`, `className?` | Overlay fijo de pantalla completa (`--color-overlay` + `backdrop-blur-lg`) con `children` centrado y libre. Sin estado, portal, focus trap, Escape ni animaciones |
 
 ### Contratos de layout (`components/layout/`)
 
@@ -155,6 +174,25 @@ Los bloques son Server Components sin estado: los datos son estáticos de refere
 | `PetWellbeingCard` | — | Bloque destacado en `--color-chip` con consejo de bienestar |
 
 Los bloques son Server Components sin estado: datos estáticos de referencia, sin CRUD, backend ni autenticación. Las fotos se sirven desde `public/images/pets/`. Mientras el escenario esté vacío (`PET_COUNT === 0`), la página oculta la próxima solicitud y el bloque de bienestar porque dependen de datos de mascotas.
+
+### Bloques de Servicios (`/services`)
+
+| Componente | Props | Comportamiento |
+|---|---|---|
+| `ServicesHeader` | — | `<h1>` de la ruta, antetítulo, descripción y bloque de confianza |
+| `ServiceCategories` | `value`, `onChange` | Tabs de categoría (`Tag`); en mobile/tablet se desplazan horizontalmente |
+| `ServicesFilters` | `filters`, `totalCount`, `categoryCounts`, `locations`, `priceBounds`, `onChange`, `onClear`, `onClose?`, `onApply?`, `className?` | Sidebar propio de Services (no es el Aside global); comunica cambios parciales del estado. `onClose`/`onApply` añaden el cierre y el botón "Aplicar filtros" que solo se pintan por debajo de `xl` |
+| `ServicesToolbar` | `resultCount`, `sort`, `onSortChange`, `query`, `onClearQuery` | Contador dinámico (`aria-live`), término de búsqueda activo y `Select` de orden |
+| `ServiceCard` | `service`, `favorite`, `onToggleFavorite` | Card con `next/image`, `Badge` de categoría, favorito (`aria-label`/`aria-pressed`), proveedor verificado, ubicación + distancia, precio/unidad, rating y CTA |
+| `ServicesGrid` | `services`, `favorites`, `onToggleFavorite`, `onClearFilters` | 1 columna → 2 (`sm`) → 3 (`2xl`); delega el estado vacío en `ServicesEmpty` |
+| `ServicesEmpty` | `onClear` | Mensaje de "sin resultados" + "Limpiar filtros" |
+| `ServicesPagination` | `page`, `totalItems`, `onPageChange` | Calcula páginas desde `totalItems`, resumen "Mostrando X–Y de Z" y botones con `aria-current` |
+| `ServicesInfo` | — | Franja informativa inferior (proveedores verificados + nota de precios) |
+| `ServicesExplorer` | — | Client Component: estado de filtros, orden, página y favoritos; compone categorías + grid y resuelve `?q=`. Por debajo de `xl` los filtros se abren como hoja inferior (overlay, deslizamiento, foco, Escape y bloqueo de scroll); el botón de apertura muestra el número de filtros activos y va acompañado de "Limpiar filtros" |
+
+**Fuente de datos**: `data/services.json` (48 registros) vía `lib/services.ts`, que expone los tipos (`Service`, `ServiceFilterState`), las constantes de facetas (`SERVICE_CATEGORIES`, `SERVICE_LOCATIONS`, `SERVICE_PRICE_BOUNDS`, `SERVICE_PAGE_SIZE`…), `filterServices` (búsqueda + filtros combinados), `sortServices` y los formateadores de precio/distancia. No hay fetch, backend ni persistencia.
+
+**Flujo de datos**: `JSON → búsqueda/categoría → filtros del sidebar → ordenamiento → paginación → ServiceCard`. La búsqueda del Navbar (`AppSearchForm`) navega a `/services?q=<término>`; al cambiar cualquier filtro, búsqueda u orden la página vuelve a 1 (se deriva de la clave de la combinación activa, sin efectos).
 
 ## 4. Interactividad requerida (frontend, sin backend)
 

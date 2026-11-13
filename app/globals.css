@@ -33,6 +33,7 @@
   --color-avatar-bg: #e7f3f2; /* fondo del Avatar con iniciales */
   --color-border: #dce7e3; /* tarjetas, inputs, divisores */
   --color-border-button: #dce3e1; /* borde del botón Secondary */
+  --color-overlay: rgb(95 108 114 / 0.56); /* backdrop del Modal: #5f6c72 al 56% */
 
   /* — Colores · Acento (§2) ——————————————————————————————————— */
   --color-accent: #f28c45; /* indicador activo del nav */
@@ -48,6 +49,13 @@
 
   /* — Colores · Footer (§2, sobre fondo primario) ———————————— */
   --color-footer-text: #c5dcd6; /* enlaces y datos del footer */
+
+  /* — Colores · Formulario del Modal de mascota (§5.13) ——————— */
+  --color-form-input: #f1f3f5; /* fondo de inputs y select */
+  --color-form-surface: #f8f9fa; /* fondo de la dropzone */
+  --color-form-border: #dee2e6; /* bordes y divisores del formulario */
+  --color-form-border-dashed: #cbd5e1; /* borde dashed de la dropzone */
+  --color-form-cancel: #c86d3b; /* texto del botón Cancelar */
 
   /* — Tipografía · DM Sans única familia (§3) ————————————————————
      Los pesos (400/500/700/800) se aplican con font-normal/font-medium/

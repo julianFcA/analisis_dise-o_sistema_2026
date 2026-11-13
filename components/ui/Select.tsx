@@ -156,6 +156,7 @@ export default function Select({
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-required={required || undefined}
         aria-controls={listId}
         aria-activedescendant={open ? optionId(highlightIndex) : undefined}
         onClick={() => (open ? setOpen(false) : openList())}

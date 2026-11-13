@@ -38,6 +38,7 @@ El resto del sistema usa valores directos (documentados abajo como tokens del pr
 | `--color-avatar-bg` | `#e7f3f2` | Fondo de Avatar con iniciales |
 | `--color-border` | `#dce7e3` | Bordes de tarjetas, inputs, select, divisores |
 | `--color-border-button` | `#dce3e1` | Borde del botón Secondary |
+| `--color-overlay` | `#5f6c72` · 56% | Backdrop del Modal (con `backdrop-filter: blur(16px)`) |
 
 ### Acento (cálido)
 
@@ -209,7 +210,9 @@ Catálogo completo por sección del UI Kit, con variantes y propiedades. ✅ = r
 ### 5.12 Card — patrón `106:1759` ✅ (como guía)
 - Ejemplo del kit: tarjeta de perfil de mascota (icono + badge de estado + título + metadatos + botón full-width). Sirve de referencia de composición para la tarjeta de servicio del Home.
 
-### 5.13 Modal — `106:1812` (no usado en el Home)
+### 5.13 Modal — `106:1812` ✅ (overlay)
+- Overlay de pantalla completa: fondo `#5f6c72` al 56% (`--color-overlay`) + `backdrop-filter: blur(16px)`; se pinta por encima del contenido (`z-60`).
+- Implementado en `components/ui/Modal/` como primitiva estructural: recibe `children` libre (título, formulario, acciones…) y `className?` opcional. Sin estado, portal, focus trap, cierre con Escape ni animaciones en esta fase.
 
 ### 5.14 Datatable — `106:1830` (no usado en el Home)
 
