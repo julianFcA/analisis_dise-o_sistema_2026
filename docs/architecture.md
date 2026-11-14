@@ -170,12 +170,12 @@ Los bloques son Server Components sin estado: los datos son estáticos de refere
 | `AddPetModal` | `open`, `onClose` | Formulario "Registrar Nueva Mascota" dentro del `Modal` del kit: nombre, especie, raza dependiente de la especie, edad, peso y dropzone de foto opcional. Valida en cliente, cierra con X/Cancelar/Escape (limpiando el formulario) y simula el guardado con el estado `loading` de `Button`; sin API ni persistencia |
 | `MyPetsStats` | — | Tres cards KPI estáticas (total, solicitudes activas, próxima cita) |
 | `PetList` | — | Encabezado con contador y `EmptyPetsState` (sin control de orden mientras no haya mascotas) |
-| `EmptyPetsState` | — | Estado vacío centrado: `dog_cat.svg` decorativo, título, descripción y CTA "Agregar mi primera mascota" (`Button` Default) |
+| `EmptyPetsState` | — | Client Component: estado vacío centrado con `dog_cat.svg` decorativo, título, descripción y CTA "Agregar mi primera mascota" (`Button` Default), que abre `AddPetModal` (el estado de apertura vive aquí) |
 | `PetCard` | `pet: Pet` | Foto (`next/image`) con `Badge` de tipo, estado de salud, raza/edad, registro y acciones Editar/Eliminar (visuales) |
 | `UpcomingRequest` | — | Próxima solicitud con fecha, estado y enlace "Ver solicitud" |
 | `PetWellbeingCard` | — | Bloque destacado en `--color-chip` con consejo de bienestar |
 
-Salvo `MyPetsHeader` y `AddPetModal` (Client Components por el estado de apertura y del formulario), los bloques son Server Components sin estado: datos estáticos de referencia, sin CRUD, backend ni autenticación. Las fotos se sirven desde `public/images/pets/`. Mientras el escenario esté vacío (`PET_COUNT === 0`), la página oculta la próxima solicitud y el bloque de bienestar porque dependen de datos de mascotas.
+Salvo `MyPetsHeader`, `EmptyPetsState` y `AddPetModal` (Client Components por el estado de apertura del modal y del formulario), los bloques son Server Components sin estado: datos estáticos de referencia, sin CRUD, backend ni autenticación. Las fotos se sirven desde `public/images/pets/`. Mientras el escenario esté vacío (`PET_COUNT === 0`), la página oculta la próxima solicitud y el bloque de bienestar porque dependen de datos de mascotas.
 
 ### Bloques de Servicios (`/services`)
 
