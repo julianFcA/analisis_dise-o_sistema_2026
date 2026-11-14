@@ -40,6 +40,12 @@ export interface Provider {
   slug: string;
   name: string;
   category: string;
+  /** Categoría corta usada como antetítulo en la página de dirección. */
+  categoryLabel: string;
+  /** Sello de proveedor verificado. */
+  verified: boolean;
+  /** Lema corto mostrado bajo el nombre (página de dirección). */
+  tagline: string;
   rating: string;
   reviewCount: number;
   location: string;
@@ -66,6 +72,9 @@ export const provider: Provider = {
   slug: "clinica-veterinaria-huellas",
   name: "Clínica Veterinaria Huellas",
   category: "Veterinaria · Cuidado integral",
+  categoryLabel: "Salud y bienestar",
+  verified: true,
+  tagline: "Cuidamos de su salud, contigo.",
   rating: "4,9",
   reviewCount: 128,
   location: "Colombia",

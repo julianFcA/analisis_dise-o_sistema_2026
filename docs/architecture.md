@@ -207,6 +207,18 @@ Salvo `MyPetsHeader` y `AddPetModal` (Client Components por el estado de apertur
 
 `Gallery` (`components/ui/`) admite `badge`/`action` opcionales para superponer contenido en la foto principal y muestra el contador `n/total`.
 
+### Bloques de Dirección del Proveedor (`/providers/[id]/direccion`)
+
+| Componente | Props | Comportamiento |
+|---|---|---|
+| `ProviderAddressHeader` | — | `<h1>`, descripción y sello "Cerca de tu mascota" (dos columnas desde `md`) |
+| `ProviderAddressCard` | — | Identidad del proveedor (categoría, verificación, nombre, lema) y bloques de contacto: dirección, ciudad, teléfono, correo y horarios, leídos de `components/providers/data.ts` |
+| `ProviderMap` | — | Client Component: card "Aquí nos encontrarás" con `MapPreview`, ciudad, dirección, acción "Copiar" al portapapeles y "Ampliar mapa" que abre la vista grande en el `Modal` del kit (Escape y bloqueo de scroll como en `Gallery`) |
+| `ProviderVisitInfo` | — | Banner "Una visita sin complicaciones" con tres beneficios (Metro, acceso adaptado y cita previa): encabezado a la izquierda y beneficios en fila con divisores desde `xl` |
+| `MapPreview` (`ui/`) | `label?`, `markerTitle?`, `markerMeta?`, `className?` | Maqueta estática de mapa en SVG: manzanas giradas, avenida diagonal, zona verde, rótulos de calles, escala y atribución; marcador naranja con rótulo del proveedor, estación de metro y controles visuales. Sin librerías, tiles ni API; el marcador queda centrado en mobile y desplazado desde `md` |
+
+La ruta conserva el nombre de segmento `[id]` de `/providers/[id]` y muestra la página 404 si el `id` no coincide con el `slug` del dataset. Se llega a ella desde la card "Ven a conocernos" (`ProviderLocation`) del detalle del proveedor.
+
 **Fuente de datos**: `data/services.json` (48 registros) vía `lib/services.ts`, que expone los tipos (`Service`, `ServiceFilterState`), las constantes de facetas (`SERVICE_CATEGORIES`, `SERVICE_LOCATIONS`, `SERVICE_PRICE_BOUNDS`, `SERVICE_PAGE_SIZE`…), `filterServices` (búsqueda + filtros combinados), `sortServices` y los formateadores de precio/distancia. No hay fetch, backend ni persistencia.
 
 **Flujo de datos**: `JSON → búsqueda/categoría → filtros del sidebar → ordenamiento → paginación → ServiceCard`. La búsqueda del Navbar (`AppSearchForm`) navega a `/services?q=<término>`; al cambiar cualquier filtro, búsqueda u orden la página vuelve a 1 (se deriva de la clave de la combinación activa, sin efectos).
