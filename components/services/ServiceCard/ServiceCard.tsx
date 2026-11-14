@@ -115,7 +115,12 @@ export default function ServiceCard({
             </span>
           </p>
 
-          <Button type="secondary" label="Ver Detalles" className="w-full" />
+          <Button
+            type="secondary"
+            label="Ver Detalles"
+            href={`/services/${service.id}`}
+            className="w-full justify-center"
+          />
         </div>
       </div>
     </article>

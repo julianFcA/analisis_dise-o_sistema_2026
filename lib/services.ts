@@ -15,6 +15,8 @@ export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
 export interface ServiceProvider {
   name: string;
   verified: boolean;
+  /** Calle y número del proveedor (la ciudad es `Service.location`). */
+  address: string;
 }
 
 /** Disponibilidad declarada por el proveedor en el dataset. */
@@ -28,7 +30,10 @@ export interface ServiceAvailability {
 export interface Service {
   id: string;
   title: string;
+  /** Resumen corto (categoría + duración). */
   description: string;
+  /** Descripción larga para el detalle del servicio. */
+  details: string;
   provider: ServiceProvider;
   category: ServiceCategory;
   location: string;
@@ -236,6 +241,16 @@ export function formatPrice(amount: number): string {
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return `$${digits}`;
+}
+
+/**
+ * Duración legible a partir del resumen del servicio (`"… · 45 min"`).
+ * Devuelve `null` si el dataset no declara la duración.
+ */
+export function formatServiceDuration(description: string): string | null {
+  const match = description.match(/(\d+)\s*min/);
+  if (!match) return null;
+  return `${Number(match[1])} minutos`;
 }
 
 /** `4.8` → `4,8 km`. */

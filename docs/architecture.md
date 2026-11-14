@@ -192,6 +192,21 @@ Salvo `MyPetsHeader` y `AddPetModal` (Client Components por el estado de apertur
 | `ServicesInfo` | — | Franja informativa inferior (proveedores verificados + nota de precios) |
 | `ServicesExplorer` | — | Client Component: estado de filtros, orden, página y favoritos; compone categorías + grid y resuelve `?q=`. Por debajo de `xl` los filtros se abren como hoja inferior (overlay, deslizamiento, foco, Escape y bloqueo de scroll); el botón de apertura muestra el número de filtros activos y va acompañado de "Limpiar filtros" |
 
+### Bloques del detalle de servicio (`/services/[serviceId]`)
+
+| Componente | Props | Comportamiento |
+|---|---|---|
+| `ServiceBreadcrumb` | `serviceTitle` | Ruta Inicio › Servicios › servicio actual (`aria-current="page"` en el último elemento) |
+| `ServiceGallery` | `service` | Client Component: galería de 4 fotos locales; píldora "Cuidado de confianza" y favorito (`aria-pressed`) sobre la foto principal |
+| `ServiceInfo` | `service` | Columna derecha: antetítulo con icono, `<h1>`, rating, descripción, duración/ciudad, proveedor, flexibilidad y CTA a `?service=` |
+| `ServiceProviderCard` | `provider` | Chip de icono, nombre con verificación y enlace "Conocer al proveedor" a `/providers/[slug]` |
+| `ServiceAvailability` | — | Bloque "Flexibilidad para ti" (horario se acuerda tras la solicitud) |
+| `ServiceBenefits` | — | "Todo lo que necesita para estar bien": dos beneficios y nota previa a la visita |
+| `ServiceReview` | — | Reseña de referencia en formato cita con `Avatar` (sin datos de reviews en el dataset) |
+| `ServiceFooter` | — | Línea legal + enlaces Privacidad / Términos de uso / Ayuda |
+
+`Gallery` (`components/ui/`) admite `badge`/`action` opcionales para superponer contenido en la foto principal y muestra el contador `n/total`.
+
 **Fuente de datos**: `data/services.json` (48 registros) vía `lib/services.ts`, que expone los tipos (`Service`, `ServiceFilterState`), las constantes de facetas (`SERVICE_CATEGORIES`, `SERVICE_LOCATIONS`, `SERVICE_PRICE_BOUNDS`, `SERVICE_PAGE_SIZE`…), `filterServices` (búsqueda + filtros combinados), `sortServices` y los formateadores de precio/distancia. No hay fetch, backend ni persistencia.
 
 **Flujo de datos**: `JSON → búsqueda/categoría → filtros del sidebar → ordenamiento → paginación → ServiceCard`. La búsqueda del Navbar (`AppSearchForm`) navega a `/services?q=<término>`; al cambiar cualquier filtro, búsqueda u orden la página vuelve a 1 (se deriva de la clave de la combinación activa, sin efectos).
