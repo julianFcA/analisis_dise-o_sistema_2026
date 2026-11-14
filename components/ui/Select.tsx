@@ -12,6 +12,8 @@ export interface SelectProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   required?: boolean;
+  /** Mensaje de validación en cliente bajo el control. */
+  error?: string;
   /** Estado `Disabled` del kit (99:737). */
   disabled?: boolean;
   name?: string;
@@ -45,12 +47,14 @@ export default function Select({
   onChange,
   placeholder,
   required = false,
+  error,
   disabled = false,
   name,
   className,
 }: SelectProps) {
   const id = useId();
   const listId = `${id}-listbox`;
+  const errorId = `${id}-error`;
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -132,7 +136,7 @@ export default function Select({
 
   const triggerClasses = [
     TRIGGER_CLASSES,
-    open ? "border-primary-600" : "border-border",
+    error ? "border-accent" : open ? "border-primary-600" : "border-border",
   ]
     .filter(Boolean)
     .join(" ");
@@ -157,13 +161,17 @@ export default function Select({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-required={required || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
         aria-controls={listId}
         aria-activedescendant={open ? optionId(highlightIndex) : undefined}
         onClick={() => (open ? setOpen(false) : openList())}
         onKeyDown={handleKeyDown}
         className={triggerClasses}
       >
-        <span className="text-secondary">{selectedValue ?? placeholder}</span>
+        <span className="min-w-0 truncate text-secondary">
+          {selectedValue ?? placeholder}
+        </span>
         <ChevronDown
           className={
             open
@@ -172,6 +180,12 @@ export default function Select({
           }
         />
       </button>
+
+      {error ? (
+        <p id={errorId} className="text-note text-accent" role="alert">
+          {error}
+        </p>
+      ) : null}
 
       {open ? (
         <ul

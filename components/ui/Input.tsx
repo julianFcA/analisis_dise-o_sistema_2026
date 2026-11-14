@@ -3,7 +3,15 @@
 import { useId, type ChangeEvent, type ReactNode } from "react";
 
 /** Tipos nativos admitidos por el control (el kit solo define un estilo). */
-export type InputType = "text" | "email" | "password" | "tel" | "url" | "search";
+export type InputType =
+  | "text"
+  | "email"
+  | "password"
+  | "tel"
+  | "url"
+  | "search"
+  | "date"
+  | "time";
 
 export interface InputProps {
   /** Etiqueta visible (Bold 13 #173d39). */
@@ -22,6 +30,9 @@ export interface InputProps {
   className?: string;
   /** Tipo nativo del `<input>` (email, password…). Por defecto `text`. */
   type?: InputType;
+  /** Texto de apoyo bajo el control (contador de caracteres, ayuda). Se
+   * enlaza al control con `aria-describedby`. */
+  hint?: ReactNode;
   /** Icono decorativo alineado a la izquierda dentro del campo. */
   startIcon?: ReactNode;
   /** Control alineado a la derecha dentro del campo (p. ej. ver contraseña). */
@@ -53,12 +64,14 @@ export default function Input({
   name,
   className,
   type = "text",
+  hint,
   startIcon,
   endIcon,
   autoComplete,
 }: InputProps) {
   const id = useId();
   const errorId = `${id}-error`;
+  const hintId = `${id}-hint`;
   const hasStartIcon = Boolean(startIcon);
   const hasEndIcon = Boolean(endIcon);
 
@@ -70,7 +83,9 @@ export default function Input({
     error ? "border-accent" : "border-border",
   ].join(" ");
 
-  const describedBy = error ? errorId : undefined;
+  const describedBy =
+    [error ? errorId : null, hint ? hintId : null].filter(Boolean).join(" ") ||
+    undefined;
   const controlProps = {
     id,
     name,
@@ -128,6 +143,12 @@ export default function Input({
           ) : null}
         </div>
       )}
+
+      {hint ? (
+        <p id={hintId} className="text-note text-secondary">
+          {hint}
+        </p>
+      ) : null}
 
       {error ? (
         <p id={errorId} className="text-note text-accent" role="alert">

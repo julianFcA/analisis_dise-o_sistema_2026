@@ -1,0 +1,37 @@
+{
+  "pets": [
+    {
+      "id": "pet-001",
+      "name": "Luna",
+      "species": "Perro",
+      "breed": "Golden Retriever",
+      "sex": "Hembra",
+      "age": "3 años",
+      "health": "healthy",
+      "image": "/images/pets/luna.jpg",
+      "imageAlt": "Luna, golden retriever"
+    },
+    {
+      "id": "pet-002",
+      "name": "Milo",
+      "species": "Perro",
+      "breed": "Golden Retriever",
+      "sex": "Macho",
+      "age": "4 años",
+      "health": "healthy",
+      "image": "/images/pets/milo.jpg",
+      "imageAlt": "Milo, golden retriever"
+    },
+    {
+      "id": "pet-003",
+      "name": "Bruno",
+      "species": "Perro",
+      "breed": "Labrador",
+      "sex": "Macho",
+      "age": "5 años",
+      "health": "follow-up",
+      "image": "/images/pets/bruno.jpg",
+      "imageAlt": "Bruno, labrador"
+    }
+  ]
+}
