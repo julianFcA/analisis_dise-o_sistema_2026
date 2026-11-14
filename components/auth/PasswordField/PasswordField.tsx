@@ -13,6 +13,12 @@ export interface PasswordFieldProps {
   name?: string;
   autoComplete?: string;
   placeholder?: string;
+  /** Mensaje de error → estado `Error` del Input. */
+  error?: string;
+  /** Añade el asterisco obligatorio de la etiqueta. */
+  required?: boolean;
+  /** Deshabilita el campo y el control de visibilidad. */
+  disabled?: boolean;
 }
 
 /**
@@ -27,6 +33,9 @@ export default function PasswordField({
   name,
   autoComplete,
   placeholder,
+  error,
+  required,
+  disabled = false,
 }: PasswordFieldProps) {
   const [visible, setVisible] = useState(false);
 
@@ -40,13 +49,17 @@ export default function PasswordField({
       onChange={onChange}
       startIcon={<Lock />}
       placeholder={placeholder}
+      error={error}
+      required={required}
+      disabled={disabled}
       endIcon={
         <button
           type="button"
+          disabled={disabled}
           onClick={() => setVisible((current) => !current)}
           aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
           aria-pressed={visible}
-          className="flex size-9 items-center justify-center rounded-full text-secondary transition-colors hover:text-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+          className="flex size-9 items-center justify-center rounded-full text-secondary transition-colors hover:text-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:cursor-not-allowed"
         >
           {visible ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
         </button>

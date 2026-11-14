@@ -39,6 +39,8 @@ export interface InputProps {
   endIcon?: ReactNode;
   /** Valor de `autocomplete` para los gestores de contraseñas del navegador. */
   autoComplete?: string;
+  /** Deshabilita el control (p. ej. mientras se envía el formulario). */
+  disabled?: boolean;
 }
 
 /* Anatomía documentada (docs/design-system.md §5.3): control de 48px, fondo
@@ -68,6 +70,7 @@ export default function Input({
   startIcon,
   endIcon,
   autoComplete,
+  disabled = false,
 }: InputProps) {
   const id = useId();
   const errorId = `${id}-error`;
@@ -81,6 +84,7 @@ export default function Input({
       ? "h-28 resize-none px-3.5 py-3.5"
       : ["h-12", hasStartIcon ? "pl-11" : "pl-3.5", hasEndIcon ? "pr-12" : "pr-3.5"].join(" "),
     error ? "border-accent" : "border-border",
+    "disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-secondary",
   ].join(" ");
 
   const describedBy =
@@ -91,6 +95,7 @@ export default function Input({
     name,
     placeholder,
     value,
+    disabled,
     onChange: onChange ? (event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value) : undefined,
     "aria-invalid": error ? true : undefined,
     "aria-describedby": describedBy,
@@ -112,6 +117,7 @@ export default function Input({
           name={name}
           placeholder={placeholder}
           value={value}
+          disabled={disabled}
           onChange={onChange ? (event) => onChange(event.target.value) : undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}

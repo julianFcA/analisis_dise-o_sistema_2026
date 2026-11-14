@@ -9,6 +9,8 @@ export interface CheckboxProps {
   /** Etiqueta del control (Regular 12/1.5 #647873). */
   children: ReactNode;
   className?: string;
+  /** Deshabilita la casilla (p. ej. mientras se envía el formulario). */
+  disabled?: boolean;
 }
 
 /**
@@ -24,6 +26,7 @@ export default function Checkbox({
   onChange,
   children,
   className,
+  disabled = false,
 }: CheckboxProps) {
   const boxClasses = [
     "flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-checkbox border",
@@ -33,7 +36,11 @@ export default function Checkbox({
 
   return (
     <label
-      className={["inline-flex cursor-pointer items-start gap-2", className]
+      className={[
+        "inline-flex items-start gap-2",
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+        className,
+      ]
         .filter(Boolean)
         .join(" ")}
     >
@@ -41,6 +48,7 @@ export default function Checkbox({
         type="checkbox"
         className="peer sr-only"
         checked={checked}
+        disabled={disabled}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className={boxClasses} aria-hidden="true">

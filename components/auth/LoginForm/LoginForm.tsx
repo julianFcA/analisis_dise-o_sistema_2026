@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import AuthCard from "@/components/auth/AuthCard/AuthCard";
 import AuthDivider from "@/components/auth/AuthDivider/AuthDivider";
 import PasswordField from "@/components/auth/PasswordField/PasswordField";
@@ -8,21 +9,69 @@ import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import Input from "@/components/ui/Input";
 import Mail from "@/components/icons/mail";
+import {
+  authenticateUser,
+  validateLoginFields,
+  type LoginFieldErrors,
+} from "./authenticateUser";
 
 /**
  * Formulario de Login (docs/auth-reference §5.2).
  *
- * Interacciones locales únicamente: campos controlados, visibilidad de la
- * contraseña y checkbox Recordarme. No hay backend ni simulación de
- * autenticación: el submit solo evita la recarga de la página.
+ * Flujo de demostración: validación local de los campos, autenticación
+ * simulada (credenciales de prueba en `authenticateUser.ts`) con estado
+ * `loading` y redirección a `/dashboard`. El módulo de autenticación está
+ * aislado detrás de `authenticateUser`, de modo que puede sustituirse por una
+ * petición real sin rehacer el formulario.
  */
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [errors, setErrors] = useState<LoginFieldErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  /** Al corregir un valor desaparece su error y el error general. */
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    setErrors((current) => (current.email ? { ...current, email: undefined } : current));
+    setFormError(null);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    setErrors((current) =>
+      current.password ? { ...current, password: undefined } : current,
+    );
+    setFormError(null);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // Evita peticiones simultáneas mientras el login está en progreso.
+    if (loading) return;
+
+    const nextErrors = validateLoginFields({ email, password });
+    setErrors(nextErrors);
+    setFormError(null);
+
+    if (nextErrors.email || nextErrors.password) return;
+
+    setLoading(true);
+
+    const result = await authenticateUser({ email, password });
+
+    if (!result.ok) {
+      setLoading(false);
+      setFormError(result.message);
+      return;
+    }
+
+    // Se mantiene el loading hasta que la navegación desmonta la pantalla.
+    router.push("/dashboard");
   };
 
   return (
@@ -30,7 +79,12 @@ export default function LoginForm() {
       title="Iniciar sesión"
       description="Qué bueno tenerte de vuelta. Tu mascota te espera."
     >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        aria-busy={loading || undefined}
+        className="flex flex-col gap-5"
+      >
         {/* Campos. */}
         <div className="flex flex-col gap-5">
           <Input
@@ -39,23 +93,29 @@ export default function LoginForm() {
             type="email"
             autoComplete="email"
             value={email}
-            onChange={setEmail}
+            onChange={handleEmailChange}
             startIcon={<Mail />}
             placeholder="correo@ejemplo.com"
+            error={errors.email}
+            required
+            disabled={loading}
           />
           <PasswordField
             label="Contraseña"
             name="password"
             autoComplete="current-password"
             value={password}
-            onChange={setPassword}
+            onChange={handlePasswordChange}
             placeholder="Ingresa tu contraseña"
+            error={errors.password}
+            required
+            disabled={loading}
           />
         </div>
 
         {/* Recordarme + recuperación de contraseña. */}
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-          <Checkbox checked={remember} onChange={setRemember}>
+          <Checkbox checked={remember} onChange={setRemember} disabled={loading}>
             Recordarme
           </Checkbox>
           {/* ⏳ Ruta de recuperación pendiente de definición. */}
@@ -67,7 +127,23 @@ export default function LoginForm() {
           </a>
         </div>
 
-        <Button type="default" label="Ingresar" submit className="w-full" />
+        {/* Error general de autenticación (no revela qué campo falla). */}
+        {formError ? (
+          <p
+            role="alert"
+            className="rounded-input border border-accent bg-accent-soft px-3.5 py-2.5 text-note text-accent-strong"
+          >
+            {formError}
+          </p>
+        ) : null}
+
+        <Button
+          type="default"
+          label="Ingresar"
+          submit
+          state={loading ? "loading" : "default"}
+          className="w-full"
+        />
 
         <AuthDivider>¿Es tu primera vez aquí?</AuthDivider>
 
@@ -75,6 +151,7 @@ export default function LoginForm() {
           type="secondary"
           label="Crear Cuenta"
           href="/register"
+          state={loading ? "disabled" : "default"}
           className="w-full"
         />
 

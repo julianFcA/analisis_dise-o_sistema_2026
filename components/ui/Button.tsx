@@ -119,7 +119,14 @@ export default function Button({
 
   if (href) {
     return (
-      <a href={href} onClick={onClick} className={buttonClassName} aria-label={ariaLabel}>
+      <a
+        href={href}
+        onClick={onClick}
+        className={cn(buttonClassName, isDisabled && "pointer-events-none opacity-50")}
+        aria-label={ariaLabel}
+        aria-disabled={isDisabled || undefined}
+        tabIndex={isDisabled ? -1 : undefined}
+      >
         {content}
       </a>
     );
